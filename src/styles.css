@@ -1,0 +1,9 @@
+/* Standard box-sizing of everything */
+*, *::before, *::after{
+    box-sizing: border-box;
+}
+
+body{
+    margin: 0;
+    background: linear-gradient(to right, #00aaff, #00ff6c);
+}
