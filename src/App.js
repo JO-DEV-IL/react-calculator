@@ -20,10 +20,23 @@ function reducer(state, { type, payload }){
   //switchcase format to handle state types quickly
   switch(type){
     case ACTIONS.ADD_DIGIT:
+      //if digit = and currentOperand = 0, return state (dont make changes)
+      //keeps only a single 0
+      if(payload.digit === '0' && state.currentOperand === '0'){
+        return state
+      }
+      //if there is a . present already or currentOperand has a ., do nothing
+      if(payload.digit === '.' && state.currentOperand.includes('.')){
+        return state
+      }
+      //update state
       return{ //return new state object
         ...state, //go through current state
         currentOperand: `${state.currentOperand || ""}${payload.digit}`
       }
+    case ACTIONS.CLEAR:
+      //return empty state
+      return {}
   }
 }
 
@@ -43,7 +56,7 @@ function App() {
         <div className="previous-operand">{previousOperand} {operation}</div>
         <div className="current-operand">{currentOperand}</div>
       </div>
-      <button className="span-two">AC</button>
+      <button className="span-two" onClick={() => dispatch({ type: ACTIONS.CLEAR })}>AC</button>
       <button>DEL</button>
       <OperationButton operation="÷" dispatch={dispatch} />
       <DigitButton digit="1" dispatch={dispatch} />
@@ -61,6 +74,8 @@ function App() {
       <DigitButton digit="." dispatch={dispatch} />
       <DigitButton digit="0" dispatch={dispatch} />
       <button className="span-two">=</button>
+
+      <h1>React Calculator</h1>
     </div>
   )
 }
